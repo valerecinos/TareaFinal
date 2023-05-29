@@ -19,7 +19,7 @@ stack < int > pilas[NUM_CAJAS];
 mutex mtx;
 int contadorClientes = 0;
 
-// Función para generar números aleatorios y asignarlos a las colas
+
 void agregarNumeros() {
   random_device rd;
   mt19937 gen(rd());
@@ -39,7 +39,7 @@ void agregarNumeros() {
   }
 }
 
-// Función para atender los números de las colas y moverlos a las pilas
+
 void atenderNumeros(int caja) {
   int numerosAtendidos = 0;
   while (numerosAtendidos < NUM_NUMEROS) {
@@ -58,24 +58,24 @@ void atenderNumeros(int caja) {
 }
 
 int main() {
-  // Creación de hilo para generar los números aleatorios y asignarlos a las colas
+
   thread hiloInsercion(agregarNumeros);
 
-  // Creación de hilos para atender los números de las colas en paralelo
+ 
   thread cajas[NUM_CAJAS];
   for (int i = 0; i < NUM_CAJAS; i++) {
     cajas[i] = thread(atenderNumeros, i);
   }
 
-  // Esperar a que el hilo de inserción termine su ejecución
+  
   hiloInsercion.join();
 
-  // Esperar a que todos los hilos de atención terminen su ejecución
+  
   for (int i = 0; i < NUM_CAJAS; i++) {
     cajas[i].join();
   }
 
-  // Calcular suma total de los números atendidos en cada pila
+ 
   int sumaTotal = 0;
   for (int i = 0; i < NUM_CAJAS; i++) {
     int sumaPila = 0;
@@ -88,7 +88,7 @@ int main() {
     sumaTotal += sumaPila;
   }
 
-  // Mensaje de finalización
+  
   if (contadorClientes >= NUM_NUMEROS) {
     cout << "¡Todos los numeros han sido atendidos!" << endl;
   }
